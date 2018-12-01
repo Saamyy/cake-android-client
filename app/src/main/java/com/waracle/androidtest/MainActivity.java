@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            mListView = (ListView) rootView.findViewById(R.id.list);
+            mListView =  rootView.findViewById(android.R.id.list);
             return rootView;
         }
 
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject object = (JSONObject) getItem(position);
                         title.setText(object.getString("title"));
                         desc.setText(object.getString("desc"));
-                        mImageLoader.load(object.getString("image"), image);
+//                        mImageLoader.load(object.getString("image"), image);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
