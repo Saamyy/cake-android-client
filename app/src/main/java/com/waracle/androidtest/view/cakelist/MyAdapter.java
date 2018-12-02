@@ -1,6 +1,7 @@
 package com.waracle.androidtest.view.cakelist;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,14 +27,17 @@ public class MyAdapter extends BaseAdapter {
     // Can you think of a better way to represent these items???
     private List<Cake> cakesList;
     private ImageLoader mImageLoader;
+    private Context context;
 
-    public MyAdapter() {
+    public MyAdapter(Context context) {
         this(new ArrayList<Cake>());
+        this.context=context;
     }
 
     public MyAdapter(List<Cake> items) {
         cakesList = items;
         mImageLoader = new ImageLoader();
+
     }
 
     @Override
@@ -55,7 +59,7 @@ public class MyAdapter extends BaseAdapter {
     @SuppressLint("ViewHolder")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(convertView.getContext());
+        LayoutInflater inflater = LayoutInflater.from(context);
         View root = inflater.inflate(R.layout.list_item_layout, parent, false);
         if (root != null) {
             TextView title = (TextView) root.findViewById(R.id.title);
@@ -71,7 +75,9 @@ public class MyAdapter extends BaseAdapter {
         return root;
     }
 
-    public void setItems(ArrayList<Cake> items) {
-        cakesList = items;
+    public void setItems(List<Cake> items) {
+        cakesList.clear();
+        cakesList.addAll(items);
+        notifyDataSetChanged();
     }
 }
