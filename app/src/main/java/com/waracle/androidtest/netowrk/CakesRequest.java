@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.waracle.androidtest.utils.StreamUtils;
 import com.waracle.androidtest.model.Cake;
+import com.waracle.androidtest.view.cakelist.PlaceHolderViewContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,9 +21,9 @@ import java.util.List;
 public class CakesRequest extends AsyncTask<Void, Void, List<Cake>> {
     private static String cakesUrl = "https://gist.githubusercontent.com/hart88/198f29ec5114a3ec3460/" +
             "raw/8dd19a88f9b8d24c23d9960f3300d0c917a4f07c/cake.json";
-    private CakesRequestCallBacks callBacks;
+    private PlaceHolderViewContract callBacks;
 
-    public CakesRequest(CakesRequestCallBacks callBacks) {
+    public CakesRequest(PlaceHolderViewContract callBacks) {
         this.callBacks = callBacks;
     }
 
@@ -45,9 +46,9 @@ public class CakesRequest extends AsyncTask<Void, Void, List<Cake>> {
     protected void onPostExecute(List<Cake> cakes) {
         super.onPostExecute(cakes);
         if (cakes != null) {
-            callBacks.onSuccess(cakes);
+            callBacks.displayList(cakes);
         } else {
-            callBacks.onFailure();
+            callBacks.showError();
         }
     }
 
@@ -115,5 +116,6 @@ public class CakesRequest extends AsyncTask<Void, Void, List<Cake>> {
         return list;
 
     }
+
 
 }

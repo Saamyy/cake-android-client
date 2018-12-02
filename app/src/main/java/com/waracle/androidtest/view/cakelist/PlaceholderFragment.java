@@ -2,25 +2,17 @@ package com.waracle.androidtest.view.cakelist;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.waracle.androidtest.R;
-import com.waracle.androidtest.StreamUtils;
+import com.waracle.androidtest.model.Cake;
 import com.waracle.androidtest.netowrk.CakesRequest;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.CacheRequest;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.List;
 
 /**
  * Fragment is responsible for loading in some JSON and
@@ -29,10 +21,11 @@ import java.net.URL;
  * Improve any performance issues
  * Use good coding practices to make code more secure
  */
-public class PlaceholderFragment extends ListFragment {
+public class PlaceholderFragment extends ListFragment implements PlaceHolderViewContract {
 
     private static final String TAG = PlaceholderFragment.class.getSimpleName();
-
+    private final String errorMessageStrin = "something went wrong please try again later";
+    private CakesRequest requestContract;
     private ListView mListView;
     private MyAdapter mAdapter;
 
@@ -49,19 +42,26 @@ public class PlaceholderFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        // Create and set the list adapter.
-        mAdapter = new MyAdapter();
+        requestContract = new CakesRequest(this);
+        // Create and set the list adapter
+        mAdapter = new MyAdapter(getContext());
         mListView.setAdapter(mAdapter);
-
-        // Load data from net.
-//        try {
-//            JSONArray array = loadData();
-//            mAdapter.setItems(array);
-//        } catch (IOException | JSONException e) {
-//            Log.e(TAG, e.getMessage());
-//        }
+        requestContract.execute();
     }
 
+    @Override
+    public void displayList(List<Cake> cakes) {
+        mAdapter.setItems(cakes);
+    }
 
+    @Override
+    public void showError() {
+        Toast.makeText(getContext(), errorMessageStrin, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        requestContract=null;
+    }
 }
