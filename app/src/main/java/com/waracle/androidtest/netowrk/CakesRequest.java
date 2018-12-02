@@ -2,7 +2,7 @@ package com.waracle.androidtest.netowrk;
 
 import android.os.AsyncTask;
 
-import com.waracle.androidtest.StreamUtils;
+import com.waracle.androidtest.utils.StreamUtils;
 import com.waracle.androidtest.model.Cake;
 
 import org.json.JSONArray;

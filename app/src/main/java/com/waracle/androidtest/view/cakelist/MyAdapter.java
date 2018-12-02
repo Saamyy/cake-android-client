@@ -1,23 +1,16 @@
 package com.waracle.androidtest.view.cakelist;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.waracle.androidtest.ImageLoader;
 import com.waracle.androidtest.R;
 import com.waracle.androidtest.model.Cake;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.waracle.androidtest.netowrk.DownloadImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,18 +19,15 @@ public class MyAdapter extends BaseAdapter {
 
     // Can you think of a better way to represent these items???
     private List<Cake> cakesList;
-    private ImageLoader mImageLoader;
     private Context context;
 
     public MyAdapter(Context context) {
         this(new ArrayList<Cake>());
-        this.context=context;
+        this.context = context;
     }
 
     public MyAdapter(List<Cake> items) {
         cakesList = items;
-        mImageLoader = new ImageLoader();
-
     }
 
     @Override
@@ -56,22 +46,18 @@ public class MyAdapter extends BaseAdapter {
         return 0;
     }
 
-    @SuppressLint("ViewHolder")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View root = inflater.inflate(R.layout.list_item_layout, parent, false);
-        if (root != null) {
-            TextView title = (TextView) root.findViewById(R.id.title);
-            TextView desc = (TextView) root.findViewById(R.id.desc);
-            ImageView image = (ImageView) root.findViewById(R.id.image);
-            Cake object = cakesList.get(position);
-            title.setText(object.getTitle());
-            desc.setText(object.getDesc());
-//                        mImageLoader.load(object.getString("image"), image);
-
-        }
-
+        TextView title = (TextView) root.findViewById(R.id.title);
+        TextView desc = (TextView) root.findViewById(R.id.desc);
+        ImageView image = (ImageView) root.findViewById(R.id.image);
+        Cake object = cakesList.get(position);
+        title.setText(object.getTitle());
+        desc.setText(object.getDesc());
+//        mImageLoader.load(object.getImage(), image);
+        new DownloadImage(image).execute(object.getImage());
         return root;
     }
 
