@@ -11,13 +11,15 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DownloadImage extends AsyncTask<String, Void, Bitmap> {
 
-    private WeakReference<ImageView> imageview;
+    private ImageView imageview;
 
     public DownloadImage(ImageView imv) {
-        imageview = new WeakReference<ImageView>(imv);
+        this.imageview=imv;
     }
 
     @Override
@@ -30,7 +32,7 @@ public class DownloadImage extends AsyncTask<String, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap result) {
         if ((imageview != null) && (result != null)) {
-            ImageView imgview = imageview.get();
+            ImageView imgview = imageview;
 
             if (imgview != null) {
                 imgview.setImageBitmap(result);
