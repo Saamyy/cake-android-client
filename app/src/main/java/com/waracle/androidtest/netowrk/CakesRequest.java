@@ -59,11 +59,6 @@ public class CakesRequest extends AsyncTask<Void, Void, List<Cake>> {
         try {
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
-            // Can you think of a way to improve the performance of loading data
-            // using HTTP headers???
-
-            // Also, Do you trust any utils thrown your way????
-
             byte[] bytes = StreamUtils.readUnknownFully(in);
 
             // Read in charset of HTTP content.
